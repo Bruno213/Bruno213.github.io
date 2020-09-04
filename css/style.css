@@ -1,0 +1,60 @@
+:not(html) {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background: #DCE1EA;
+}
+.header {
+    width: 100%;
+    height: 82px;
+    padding: 0 55px;
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;    
+    background: #e71919;
+}
+.title {
+    color: #F6C502;
+    text-shadow: 
+    0px 2px 0 #0067B0,
+    0px -2px 0 #0067B0,
+    2px 0px 0 #0067B0,
+    -2px 0px 0 #0067B0;
+}
+.pokeList {
+    width: 100%;
+    min-height: 200px;
+    padding: 135px 35px 25px;
+    color: #FFF;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+
+.pokeCard {
+    width: 100%;
+    max-width: 1000px;
+    height: 80px;
+    background-color: #FFF;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+}
+
+
+.pokeCard .name {
+    color: inherit;
+}
+.pokeCard .type {
+    width: 80px;
+    margin-left: 5px;
+    text-align: center;
+    padding: 7px 15px;
+    border-radius: 30px;
+    /* background-color: #9b1935; */
+    color: #fff;
+}
