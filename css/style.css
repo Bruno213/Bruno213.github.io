@@ -5,6 +5,7 @@
 }
 body {
     background: #DCE1EA;
+    min-height: 110vh;
 }
 .header {
     width: 100%;
@@ -33,8 +34,28 @@ body {
     display: flex;
     flex-direction: column;
 }
+.pokeList .search {
+    width: 100%;
+    margin-bottom: 35px;
+    display: flex;
+    flex-direction: column;
+}
+.pokeList .search-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4ac74a;
+}
+.pokeList .search-input {
+    margin-top: 7px;
+    width: 100%;
+    max-width: 400px;
+    height: 40px;
 
+    padding: 5px 20px;    
+    border: 2px solid #0067B0;
 
+    perspective: 1000;
+}
 .pokeCard {
     width: 100%;
     max-width: 1000px;
@@ -43,8 +64,29 @@ body {
     margin: 0 auto 20px;
     display: flex;
     align-items: center;
+    transform-origin: 0%;
+    transform-style: preserve-3d;
+    opacity: 0;
+    transition: opacity 1s ease;
 }
 
+
+.animationCard {
+    animation: fromDownforUp 1s ease;
+    opacity: 1;
+}
+
+@keyframes fromDownforUp {
+    0% {
+        transform: rotateX(100deg);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;    
+        transform: rotateX(0deg);
+    }
+}
 
 .pokeCard .name {
     color: inherit;

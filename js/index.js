@@ -1,5 +1,18 @@
 (()=>{
     const pokeList = document.querySelector('.pokeList');
+
+    const searchInput = document.querySelector('input[data-input="search"]')
+
+    searchInput.addEventListener('keydown', (e)=> {
+        const inputValue = e.target.value;
+        console.log(e.keyCode, inputValue)
+        setTimeout(()=> {
+            
+        }, 1000)
+    })
+
+    searchInput.className
+
     const colorsPerTypes = {
         ['normal']: '#B5B5A6',
         ['water']: '#1f67c5',
@@ -31,7 +44,41 @@
                 createTypes(pokemon.types)
             )
         })
-    })
+
+        unableEffects();
+    });
+
+    function unableEffects() {
+        
+        const cards = [
+            ...document.querySelectorAll('a[data-id="animation"]')
+        ];
+        console.log(cards[3])
+    
+        const windowHeight = window.innerHeight;
+
+        function isOnScreen(e) {
+            const windowTop = e.pageY;  
+            const windowBottom = windowTop + windowHeight;  
+                        
+            return cards.forEach(card => {
+                
+                const elementHeight = card.clientHeight;
+                const elementTop = card.offsetTop;
+                const elementBottom = elementTop + elementHeight;
+
+
+                return elementTop < windowBottom && elementBottom > windowTop
+                    ? card.classList.add('animationCard')
+                    : card.classList.remove('animationCard')
+            })
+        }
+                
+        document.addEventListener('scroll', isOnScreen)
+            // client top
+            //clientHeight
+            //window.innerHeight   
+    }
 
     function requestPokemon(id) {
         return fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
@@ -57,17 +104,12 @@
 
         const card = document.createElement('a');
         card.setAttribute('class', 'pokeCard');
+        card.setAttribute('data-id', 'animation')
         card.style.boxShadow = `
         -20px 0px ${mainColor},
         -20px 3px ${mainColor}
         `;
         card.style.color = `${mainColor}`
-
-        /**
-         * box-shadow: 
-    
-    color: #B6B6C5; 
-         */
 
         return card;
     }
