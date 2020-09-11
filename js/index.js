@@ -1,18 +1,6 @@
 (()=>{
     const pokeList = document.querySelector('.pokeList');
 
-    const searchInput = document.querySelector('input[data-input="search"]')
-
-    searchInput.addEventListener('keydown', (e)=> {
-        const inputValue = e.target.value;
-        console.log(e.keyCode, inputValue)
-        setTimeout(()=> {
-            
-        }, 1000)
-    })
-
-    searchInput.className
-
     const colorsPerTypes = {
         ['normal']: '#B5B5A6',
         ['water']: '#1f67c5',
@@ -34,56 +22,86 @@
         ['fairy']: '#F0A8F0'
     }
 
-
     Promise.all(getPokemons()).then( pokemons => {
         pokemons.forEach( pokemon => {
             buildCardComponent(
-                createCard(pokemon.types), 
+                createCard(pokemon.types, pokemon.name), 
                 createSprite(pokemon.id), 
                 createName(pokemon.name),
                 createTypes(pokemon.types)
             )
-        })
-
-        unableEffects();
+        });
+        unableSiteFunctionaties();
     });
 
-    function unableEffects() {
-        
+    function unableSiteFunctionaties() {
         const cards = [
             ...document.querySelectorAll('a[data-id="animation"]')
         ];
-        console.log(cards[3])
+        unableSearch(cards);
+        unableEffects(cards);
+    }
+
+    function unableSearch(cards) {
+        const input = document.querySelector('input[data-input="search"]');
+        input.addEventListener('keydown', e => {
+            setTimeout(()=> {
+                const inputData = e.target.value;
+                const regex = new RegExp( inputData , 'i');
     
+                cards.forEach(card => {
+                    card.classList.add('hidden');
+                });       
+                cards
+                .filter(card => {
+                    const name = card.getAttribute('data-name');
+        
+                    return name.search(regex) !== -1; 
+                })
+                .forEach(card => {
+                    card.classList.remove('hidden');
+                });
+
+                simulateScroll();
+            }, 200);
+        })
+    }
+
+    function simulateScroll() {
+        // The code below is needed to trigger the scrollEvent with no user action being necessary; 
+        window.scrollTo(scrollX, scrollY +1)
+        window.scrollTo(scrollX, scrollY -1)
+    }
+
+    function unableEffects(cards) { 
+        // Card's Effect 
         const windowHeight = window.innerHeight;
 
         function isOnScreen(e) {
-            const windowTop = e.pageY;  
+            const windowTop = e.pageY;
             const windowBottom = windowTop + windowHeight;  
                         
-            return cards.forEach(card => {
-                
+            return cards.forEach(card => {            
                 const elementHeight = card.clientHeight;
                 const elementTop = card.offsetTop;
                 const elementBottom = elementTop + elementHeight;
 
-
                 return elementTop < windowBottom && elementBottom > windowTop
                     ? card.classList.add('animationCard')
-                    : card.classList.remove('animationCard')
+                    : card.classList.remove('animationCard');
             })
         }
-                
-        document.addEventListener('scroll', isOnScreen)
-            // client top
-            //clientHeight
-            //window.innerHeight   
+        simulateScroll();
+
+        document.addEventListener('scroll', e => {
+            isOnScreen(e)
+        })
     }
 
     function requestPokemon(id) {
         return fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-            .then(response => response.json())
-            .then(data => data)
+        .then(data => data)
+        .then(response => response.json())
     } 
     
     function getPokemons() {
@@ -98,25 +116,24 @@
         return colorsPerTypes[type]
     }
 
-    function createCard(types) {
+    function createCard(types, name) {
         const mainType = types[0].type.name;
         const mainColor = getCssTypeColor(mainType);
-
         const card = document.createElement('a');
-        card.setAttribute('class', 'pokeCard');
-        card.setAttribute('data-id', 'animation')
-        card.style.boxShadow = `
-        -20px 0px ${mainColor},
-        -20px 3px ${mainColor}
-        `;
-        card.style.color = `${mainColor}`
+            card.setAttribute('class', 'pokeCard');
+            card.setAttribute('data-id', 'animation');
+            card.setAttribute('data-name', name);
+            card.style.boxShadow = `
+            -20px 0px ${mainColor},
+            -20px 3px ${mainColor}
+            `;
+            card.style.color = `${mainColor}`
 
         return card;
     }
 
     function createTypes(pokemonTypes) {
         const types = []
-
         pokemonTypes.forEach( ({ type }) => {
             const p = document.createElement('p');
             p.setAttribute('class', `type`);
@@ -131,18 +148,18 @@
     function createSprite(id) {
         const url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`; 
         const sprite = document.createElement('img');
-        sprite.setAttribute('class', 'sprite');
-         sprite.setAttribute(
-            'src',
-            url
-        );
+            sprite.setAttribute('class', 'sprite');
+            sprite.setAttribute(
+                'src',
+                url
+            );
         return sprite;
     }
         
     function createName(name) {
         const h2 = document.createElement('h2');
-        h2.innerText = name;
-        h2.setAttribute('class', 'name');
+            h2.innerText = name;
+            h2.setAttribute('class', 'name');
         return h2;
     }
         
@@ -154,7 +171,6 @@
     }
      
 })();
-
 
 // function promiseResolve() {
 
