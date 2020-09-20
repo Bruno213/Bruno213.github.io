@@ -28,7 +28,7 @@ body {
 .pokeList {
     width: 100%;
     min-height: 200px;
-    padding: 135px 35px 25px;
+    padding: 135px 15px 25px 35px;
     color: #FFF;
     
     display: flex;
@@ -72,17 +72,17 @@ body {
     height: 80px;
     background-color: #FFF;
     margin: 0 auto 20px;
+    padding-right: 8px;
     display: flex;
     align-items: center;
     transform-origin: 0%;
     transform-style: preserve-3d;
-    opacity: 0;
-    transition: opacity 1s ease;
+    /* opacity: 1;
+    transition: opacity 1s ease; */
 }
 .hidden {
     display: none;
 }
-
 
 .animationCard {
     animation: fromDownforUp 1s ease;
@@ -104,12 +104,37 @@ body {
 .pokeCard .name {
     color: inherit;
 }
+
+.pokeCard .type-container {
+    display: flex;
+}
+
 .pokeCard .type {
     width: 80px;
     margin-left: 5px;
     text-align: center;
     padding: 7px 15px;
     border-radius: 30px;
-    /* background-color: #9b1935; */
     color: #fff;
+}
+
+
+@media (max-width: 450px) {
+    .pokeCard {
+        justify-content: space-between;
+    }
+    .pokeCard .type-container {
+        width: 100px;    
+        height: 70px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: flex-end;
+    }
+    .pokeCard .type {
+        width: 60px;
+        margin: 0;
+        font-size: .8rem;
+        padding: 4px 0px;
+    }
 }

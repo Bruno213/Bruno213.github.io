@@ -1,6 +1,6 @@
 (()=>{
     const pokeList = document.querySelector('.pokeList');
-
+   
     const colorsPerTypes = {
         ['normal']: '#B5B5A6',
         ['water']: '#1f67c5',
@@ -31,15 +31,15 @@
                 createTypes(pokemon.types)
             )
         });
-        unableSiteFunctionaties();
+        unableSiteFunctionalities();
     });
 
-    function unableSiteFunctionaties() {
+    function unableSiteFunctionalities() {
         const cards = [
             ...document.querySelectorAll('a[data-id="animation"]')
         ];
         unableSearch(cards);
-        unableEffects(cards);
+        // unableEffects(cards);
     }
 
     function unableSearch(cards) {
@@ -49,7 +49,7 @@
                 const inputData = e.target.value;
                 const regex = new RegExp( inputData , 'i');
     
-                cards.forEach(card => {
+                 cards.forEach(card => {
                     card.classList.add('hidden');
                 });       
                 cards
@@ -65,12 +65,6 @@
                 simulateScroll();
             }, 200);
         })
-    }
-
-    function simulateScroll() {
-        // The code below is needed to trigger the scrollEvent with no user action being necessary; 
-        window.scrollTo(scrollX, scrollY +1)
-        window.scrollTo(scrollX, scrollY -1)
     }
 
     function unableEffects(cards) { 
@@ -91,11 +85,17 @@
                     : card.classList.remove('animationCard');
             })
         }
-        simulateScroll();
-
+        
         document.addEventListener('scroll', e => {
             isOnScreen(e)
         })
+        simulateScroll();
+    }
+
+    function simulateScroll() {
+        // The code below is needed to trigger the scrollEvent with no user action being necessary; 
+        window.scrollTo(scrollX, scrollY +1)
+        window.scrollTo(scrollX, scrollY -1)
     }
 
     function requestPokemon(id) {
@@ -116,6 +116,13 @@
         return colorsPerTypes[type]
     }
 
+    function buildCardComponent(card, sprite, name, typesContainer) {
+        card.appendChild(sprite);
+        card.appendChild(name);
+        card.appendChild(typesContainer);
+        pokeList.appendChild(card);
+    }
+
     function createCard(types, name) {
         const mainType = types[0].type.name;
         const mainColor = getCssTypeColor(mainType);
@@ -133,20 +140,24 @@
     }
 
     function createTypes(pokemonTypes) {
-        const types = []
+        const containerOfTypes = document.createElement('div');
+            containerOfTypes.setAttribute('class', 'type-container');
+
         pokemonTypes.forEach( ({ type }) => {
             const p = document.createElement('p');
             p.setAttribute('class', `type`);
             p.innerText = type.name;
             p.style.backgroundColor = getCssTypeColor(type.name);
-            types.push(p);
+            containerOfTypes.appendChild(p);
         })
 
-        return types;
+        return containerOfTypes;
     } 
     
     function createSprite(id) {
-        const url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`; 
+        const url = 
+            'https://raw.githubusercontent.com/PokeAPI/' +
+            `sprites/master/sprites/pokemon/${id}.png` 
         const sprite = document.createElement('img');
             sprite.setAttribute('class', 'sprite');
             sprite.setAttribute(
@@ -162,46 +173,4 @@
             h2.setAttribute('class', 'name');
         return h2;
     }
-        
-    function buildCardComponent(card, sprite, name, types) {
-        card.appendChild(sprite);
-        card.appendChild(name);
-        types.forEach( type => card.appendChild(type));
-        pokeList.appendChild(card);
-    }
-     
 })();
-
-// function promiseResolve() {
-
-//     return Promise.resolve("resolvida com sucesso");
-// }
-
-// promiseResolve().then(message =>{
-//     setTimeout(()=> {
-//         console.log(`Promisse ${message}`)
-//     }, 2000)
-// })
-
-
-// function promiseReject() {
-//     return Promise.reject("ferrou geral");
-// }
-
-// promiseReject().catch(message => {
-//     setTimeout(()=> {
-//         console.log(`Só tenho a dizer que ${message}`)
-//     }, 4000)
-// })
-
-// function promiseMaster() {
-//     return new Promise((resolve, reject)=> {
-//         setTimeout(()=> {
-//             resolve('Funfou');
-//         }, 2000);
-//     })
-// }
-
-// promiseMaster().then(text => {
-//     console.log(`${text} usando return`)
-// })
